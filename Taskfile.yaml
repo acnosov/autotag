@@ -1,0 +1,21 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  APP: autotag
+
+tasks:
+  build:
+    cmds:
+      - go build -o ./dist/{{.APP}}{{exeExt}} ./cmd/autotag/main.go
+
+  run:
+    cmds:
+      - ./dist/{{.APP}}{{exeExt}}
+
+
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true

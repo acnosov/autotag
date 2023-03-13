@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/acnosov/autotag/internal"
+	"github.com/jessevdk/go-flags"
 	"io/ioutil"
 	"log"
 	"os"
-
-	"github.com/jessevdk/go-flags"
-	"github.com/pantheon-systems/autotag"
 )
 
 // Options holds the CLI args
@@ -39,7 +38,7 @@ func main() {
 		log.SetOutput(os.Stderr)
 	}
 
-	r, err := autotag.NewRepo(autotag.GitRepoConfig{
+	r, err := internal.NewRepo(internal.GitRepoConfig{
 		RepoPath:                  opts.RepoPath,
 		Branch:                    opts.Branch,
 		PreReleaseName:            opts.PreReleaseName,

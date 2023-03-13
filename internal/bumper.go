@@ -1,4 +1,4 @@
-package autotag
+package internal
 
 import (
 	"fmt"

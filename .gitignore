@@ -1,4 +1,4 @@
-autotag/autotag
+cmd/autotag/autotag
 cmd/bin
 release
 
