@@ -1,39 +1,13 @@
-project_name: autotag
-env:
-  - GO111MODULE=on
-  - CGO_ENABLED=0
-  - GOPROXY=https://proxy.golang.org
 builds:
-  - binary: autotag
-    id: macos
-    main: autotag/main.go
+  - env:
+      - CGO_ENABLED=0
     ldflags:
-      - -s -w -X main.version={{.Version}}+{{.ShortCommit}}
-    goos:
-      - darwin
-    goarch:
-      - amd64
-
-  - binary: autotag
-    id: linux
-    main: autotag/main.go
-    ldflags:
-      - -s -w -X main.version={{.Version}}+{{.ShortCommit}}
+      - -s -w -X main.project={{.ProjectName}} -X main.version={{ .Version }} -X main.commit={{.Commit}} -X main.short={{.ShortCommit}} -X main.date={{ .CommitDate }}
     goos:
       - linux
+      - windows
     goarch:
       - amd64
-
-  # TODO: verify windows functionality then enable windows release binaries
-  # - binary: autotag
-  #   id: windows
-  #   main: autotag/main.go
-  #   ldflags:
-  #     - -s -w -X main.version={{.Version}}+{{.ShortCommit}}
-  #   goos:
-  #     - windows
-  #   goarch:
-  #     - amd64
 
 changelog:
   sort: asc
@@ -41,57 +15,3 @@ changelog:
     exclude:
       - "^docs:"
       - "^readme:"
-      - "^test:"
-      - Merge pull request
-      - Merge branch
-
-# GPG signing
-# TODO: consider implementing a "project signing key"
-# sign:
-#   artifacts: checksum
-
-archives:
-  # Old release format for backwards compatibility with existing scripts:  Binary named 'Linux'
-  - id: old-format-linux
-    builds: ["linux"]
-    format: binary
-    name_template: "Linux"
-  # Old release format for backwards compatibility with existing scripts:  Binary named 'OSX'
-  - id: old-format-osx
-    builds: ["macos"]
-    format: binary
-    name_template: "OSX"
-  # New release format, binaries for all platforms in the form: `autotag_linux_amd64`
-  - id: new-format-binary-only-all-platforms
-    format: binary
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
-  # archive releases containing: binary, readme, and license. tarballs (macos, linux), zip (windows)
-  - id: archives
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
-    replacements:
-      386: i386
-    format_overrides:
-      - goos: windows
-        format: zip
-
-# homebrew
-# brews:
-#   - ids:
-#       - archives
-#     github:
-#       owner: pantheon-systems
-#       name: homebrew-taps
-#     commit_author:
-#       name: pantheon releases
-#       email: infrastructure@pantheon.io
-#     folder: Formula
-#     homepage: "https://github.com/pantheon-systems/autotag"
-#     description: "Automatically add version tags to a git repo based on commit messages."
-
-dockers:
-  - dockerfile: Dockerfile
-    image_templates:
-      - "quay.io/pantheon-public/autotag:{{ .Tag }}" # v1.0.0
-      - "quay.io/pantheon-public/autotag:v{{ .Major }}" # v1
-      - "quay.io/pantheon-public/autotag:v{{ .Major }}.{{ .Minor }}" # v1.0
-      - "quay.io/pantheon-public/autotag:latest"

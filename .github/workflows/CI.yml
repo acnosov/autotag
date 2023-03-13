@@ -27,32 +27,9 @@ jobs:
         run: |
           echo "$HOME/go/bin" >> $GITHUB_PATH
 
-      - name: Install Coverage Tools
-        # TODO(vtopc): replace with Coveralls GitHub Action as this step is running for 20-30 seconds.
-        run: |
-          make deps-coverage
-
       - name: Download Dependencies
         run: |
           go mod download
-
-      - name: Git Config for Unit Tests
-        run: |
-          git config --global user.email ci
-          git config --global user.name ci
-
-      - name: Run Unit Tests and Upload Coverage Report
-        run: |
-          make test-gha
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Run Linter
-        uses: golangci/golangci-lint-action@v2
 
   goreleaser-check:
     runs-on: ubuntu-latest

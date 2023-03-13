@@ -1,13 +1,3 @@
-cmd/autotag/autotag
-cmd/bin
-release
-
-
-coverage*
-
-vendor/**
-!vendor/manifest
+.env
 dist/
-Attic
-.vscode/
-/.idea/
+.idea

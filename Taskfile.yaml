@@ -4,17 +4,14 @@ version: '3'
 
 vars:
   APP: autotag
-
+dotenv:
+  - .env
 tasks:
+  build_snapshot:
+    cmds:
+      - goreleaser build --clean --snapshot
+
   build:
     cmds:
       - go build -o ./dist/{{.APP}}{{exeExt}} .
 
-  run:
-    cmds:
-      - ./dist/{{.APP}}{{exeExt}}
-
-  default:
-    cmds:
-      - echo "{{.GREETING}}"
-    silent: true
