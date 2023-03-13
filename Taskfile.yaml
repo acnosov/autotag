@@ -14,7 +14,6 @@ tasks:
     cmds:
       - ./dist/{{.APP}}{{exeExt}}
 
-
   default:
     cmds:
       - echo "{{.GREETING}}"
