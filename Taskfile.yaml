@@ -8,7 +8,7 @@ vars:
 tasks:
   build:
     cmds:
-      - go build -o ./dist/{{.APP}}{{exeExt}} ./cmd/autotag/main.go
+      - go build -o ./dist/{{.APP}}{{exeExt}} .
 
   run:
     cmds:
