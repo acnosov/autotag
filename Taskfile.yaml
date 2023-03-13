@@ -7,6 +7,10 @@ vars:
 dotenv:
   - .env
 tasks:
+  release:
+    cmds:
+      - goreleaser release --clean
+
   build_snapshot:
     cmds:
       - goreleaser build --clean --snapshot
